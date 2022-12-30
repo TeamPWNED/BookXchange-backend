@@ -26,12 +26,14 @@ SECRET_KEY = 'django-insecure-*waucpt9!5h5ry70hixvoqs7p53m4!pae)xvqr_qkw7n5b@7ri
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS =  ['192.168.1.136','0.0.0.0', 'localhost']
+#ALLOWED_HOSTS =  ['192.168.1.136','0.0.0.0', 'localhost', '192.168.1.191', '192.168.13.119']
+ALLOWED_HOSTS =  ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'rest_framework',
     'api_app',
     'rest_framework_simplejwt.token_blacklist',
@@ -44,6 +46,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -118,8 +122,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+#STATICFILES_DIRS = (
+#    os.path.join(os.path.join(BASE_DIR, 'frontend'), 'build', 'static'),
+#)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -166,3 +172,4 @@ SIMPLE_JWT = {
 
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+CORS_ORIGIN_ALLOW_ALL = True

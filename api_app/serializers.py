@@ -24,6 +24,11 @@ class EmailSerializer(serializers.ModelSerializer):
         model = Email
         fields = '__all__'
 
+#class InsertBookSerializer(serializers.ModelSerializer):
+#    class Meta:
+#        model = Books
+#        fields = ['bname', 'author', 'revision', 'publication', 'category', 'subcategory', 'image', 'description', 'is_sold', 'price', 'user']
+#
 class BookSerializer(serializers.ModelSerializer):#WritableNestedModelSerializer):
     #category = CategorySerializer()
     class Meta:
@@ -36,12 +41,12 @@ class BookSerializer(serializers.ModelSerializer):#WritableNestedModelSerializer
 class UpdateProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewUser
-        fields = ['first_name', 'last_name', 'phone', 'note']
+        fields = ['email','first_name', 'last_name', 'phone', 'note', 'level', 'faculty']
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewUser
-        fields = ['id', 'user_name', 'first_name', 'last_name', 'phone', 'email', 'credit','invites', 'note']
+        fields = ['id', 'user_name', 'first_name', 'last_name', 'phone', 'email', 'credit','invites', 'note', 'level', 'faculty']
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)

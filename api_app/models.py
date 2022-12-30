@@ -41,6 +41,8 @@ class CustomAccountManager(BaseUserManager):
 class NewUser(AbstractBaseUser, PermissionsMixin):
     #book = models.ManyToManyField(Books,blank=True)
     user_name = models.CharField(max_length=50, unique=True)
+    level = models.CharField(max_length=50, null=True)
+    faculty = models.CharField(max_length=50, null=True)
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)
     phone = models.IntegerField(null=True,blank=True)
@@ -78,6 +80,7 @@ class Books(models.Model):
     description = models.TextField(blank=True)
     is_sold = models.BooleanField(default=False)
     credit = models.IntegerField(validators = [MaxValueValidator(100)], null=False)
+    price = models.IntegerField(validators = [MaxValueValidator(10000)], null=True)
     def __str__(self):
         return self.bname
 

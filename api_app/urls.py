@@ -8,6 +8,7 @@ urlpatterns = [
         path('v1/books', views.getBooks),
         path('v1/book', views.singlebook),
         path('v1/users', views.getUsers),
+        path('v1/user/books', views.getuserbooks),
         path('v1/email', views.getEmail),
         path('v1/invite', views.getInvite),
         path('v1/transfer', views.transferCredit),

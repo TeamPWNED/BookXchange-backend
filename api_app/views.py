@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from api_app.models import Books, NewUser, Email#, Category, SubCategory
-from .serializers import BookSerializer, UserSerializer, ProfileSerializer, RegistrationSerializer, EmailSerializer, UpdateProfileSerializer#, CategorySerializer, SubCategorySerializer, UpdateProfileSerializer# PasswordChangeSerializer
+from .serializers import BookSerializer, UserSerializer, ProfileSerializer, RegistrationSerializer, EmailSerializer, UpdateProfileSerializer#, InsertBookSerializer#, CategorySerializer, SubCategorySerializer, UpdateProfileSerializer# PasswordChangeSerializer
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -15,6 +15,14 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 import json
 import io
 from rest_framework.parsers import JSONParser
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getuserbooks(request):
+    book = Books.objects.filter(user=request.user.id).filter(is_sold=False)
+    serializer = BookSerializer(book, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -35,9 +43,9 @@ def transferCredit(request):
     return Response({"message":"credit transferred"})
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 def singlebook(request):
-    book = Books.objects.all(id=request.data["id"])
+    book = Books.objects.filter(id=request.data["id"])
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
