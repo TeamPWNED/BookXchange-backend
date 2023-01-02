@@ -72,7 +72,7 @@ def getEmail(request):
     email = Email.objects.filter(email=request.data["email"])
     serializer = EmailSerializer(email, many=True)
     try:
-        status = Email.objects.get(email__exact=request.data["email"])
+        #status = Email.objects.get(email__exact=request.data["email"])
         return Response(serializer.data)
     except:
         return Response({ "response":"email doesn't exist in invite table"})

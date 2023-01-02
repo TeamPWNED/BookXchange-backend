@@ -33,6 +33,8 @@ ALLOWED_HOSTS =  ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'drf_yasg',
+    'rest_framework_swagger',
     'corsheaders',
     'rest_framework',
     'api_app',
@@ -135,7 +137,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
         'DEFAULT_AUTHENTICATION_CLASSES': (
             'rest_framework_simplejwt.authentication.JWTAuthentication',
-            )
+            ),
+        'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
         }
 AUTH_USER_MODEL = 'api_app.NewUser'
 SIMPLE_JWT = {

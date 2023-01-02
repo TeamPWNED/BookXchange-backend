@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
 class EmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Email
-        fields = '__all__'
+        fields = ['email', 'is_registered'] 
 
 #class InsertBookSerializer(serializers.ModelSerializer):
 #    class Meta:
