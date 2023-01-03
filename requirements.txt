@@ -5,6 +5,7 @@ coreapi==2.3.3
 coreschema==0.0.4
 Django==4.1.5
 django-cors-headers==3.13.0
+django-jazzmin==2.6.0
 django-rest-swagger==2.2.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2

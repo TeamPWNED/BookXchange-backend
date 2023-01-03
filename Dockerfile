@@ -16,7 +16,7 @@ COPY . .
 
 # Run Django's collectstatic command to gather static files
 # in a single location that can easily be served by a web server
-RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic -v 2 --noinput
 
 # Run the Django application
-CMD ["gunicorn", "--bind", ":8000", "backend.wsgi"]
+ENTRYPOINT ["/app/entrypoint.prod.sh"]

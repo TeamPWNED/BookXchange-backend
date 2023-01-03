@@ -33,6 +33,7 @@ ALLOWED_HOSTS =  ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'drf_yasg',
     'rest_framework_swagger',
     'corsheaders',
