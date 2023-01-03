@@ -6,9 +6,11 @@ __pycache__
 *.sqlite3
 media
 env
+.env
 # Backup files # 
 *.bak 
 staticfiles
+database
 
 # If you are using PyCharm # 
 # User-specific stuff

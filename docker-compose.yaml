@@ -5,7 +5,12 @@ services:
     build:
       context: ./.
       dockerfile: Dockerfile 
-    command: gunicorn --bind :8000 backend.wsgi
+    command: bash entrypoint.prod.sh
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=database 
     volumes:
       - .:/app
       - ./staticfiles:/app/staticfiles
@@ -20,3 +25,14 @@ services:
       - ./staticfiles:/app/static/
     depends_on:
       - backend
+    
+  database:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./database:/var/lib/postgresql/data

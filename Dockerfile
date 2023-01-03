@@ -16,7 +16,6 @@ COPY . .
 
 # Run Django's collectstatic command to gather static files
 # in a single location that can easily be served by a web server
-RUN python manage.py collectstatic -v 2 --noinput
-
+RUN chmod +x /app/entrypoint.prod.sh
 # Run the Django application
-ENTRYPOINT ["/app/entrypoint.prod.sh"]
+CMD ["entrypoint.prod.sh"]
