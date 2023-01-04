@@ -12,9 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-import environ
-env = environ.Env()
-environ.Env.read_env()
+from dotenv import load_dotenv
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 from datetime import timedelta
@@ -104,14 +103,14 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #           'PORT': '5432',
 #        }
 #}
-if os.environ.get('GITHUB_WORKFLOW'):
+if os.getenv('GITHUB_WORKFLOW'):
     DATABASES = {
         'default': {
            'ENGINE': 'django.db.backends.postgresql',
-           'NAME': env('DB_NAME'),
-           'USER': env('DB_USERNAME'),
-           'PASSWORD': env('DB_PASSWORD'),
-           'HOST': env('DB_HOST'),
+           'NAME': os.getenv('DB_NAME'),
+           'USER': os.getenv('DB_USERNAME'),
+           'PASSWORD': os.getenv('DB_PASSWORD'),
+           'HOST': os.getenv('DB_HOST'),
            'PORT': '5432',
         }
     }
