@@ -52,7 +52,7 @@ jobs:
           password: ${{ secrets.ACR_PASSWORD }}
 
       - run: |
-          docker build -f Dockerfile.prod . -t ${{ secrets.ACR_ENDPOINT }}/backend:${{ github.sha }}
+          docker build -f Dockerfile . -t ${{ secrets.ACR_ENDPOINT }}/backend:${{ github.sha }}
           docker push ${{ secrets.ACR_ENDPOINT }}/backend:${{ github.sha }}
       - uses: azure/webapps-deploy@v2
         with:
