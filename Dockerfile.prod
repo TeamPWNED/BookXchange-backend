@@ -40,5 +40,4 @@ RUN chmod +x  ${APP_HOME}/entrypoint.prod.sh
 # Run Django's collectstatic command to gather static files
 # in a single location that can easily be served by a web server
 RUN python manage.py collectstatic -v 2 --noinput
-
 ENTRYPOINT ["/home/app/backend/entrypoint.prod.sh"]
