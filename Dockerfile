@@ -18,4 +18,4 @@ COPY . .
 # in a single location that can easily be served by a web server
 RUN chmod +x /app/entrypoint.prod.sh
 # Run the Django application
-CMD ["entrypoint.prod.sh"]
+CMD ["./entrypoint.prod.sh"]

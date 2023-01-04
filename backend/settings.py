@@ -103,6 +103,19 @@ DATABASES = {
            'PORT': '5432',
         }
 }
+if os.getenv('AZURE_POSTGRESQL_NAME'):
+    DATABASES = {
+        'default': {
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': os.getenv('AZURE_POSTGRESQL_NAME'),
+           'USER': os.getenv('AZURE_POSTGRESQL_USER'),
+           'PASSWORD': os.getenv('AZURE_POSTGRESQL_PASSWORD'),
+           'HOST': os.getenv('AZURE_POSTGRESQL_HOST'),
+           'PORT': '5432',
+        }
+    }
+
+
 if os.getenv('GITHUB_WORKFLOW'):
     DATABASES = {
         'default': {

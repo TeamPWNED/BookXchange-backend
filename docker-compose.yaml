@@ -6,11 +6,11 @@ services:
       context: ./.
       dockerfile: Dockerfile 
     command: bash entrypoint.prod.sh
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=database 
+    #environment:
+    #  - DB_NAME=${DB_NAME}
+    #  - DB_USERNAME=${DB_USERNAME}
+    #  - DB_PASSWORD=${DB_PASSWORD}
+    #  - DB_HOST=database 
     volumes:
       - .:/app
       - ./staticfiles:/app/staticfiles
