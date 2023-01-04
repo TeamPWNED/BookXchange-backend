@@ -52,10 +52,10 @@ jobs:
           password: ${{ secrets.ACR_PASSWORD }}
 
       - run: |
-          docker build -f Dockerfile . -t ${{ secrets.ACR_ENDPOINT }}/backend:${{ github.sha }}
-          docker push ${{ secrets.ACR_ENDPOINT }}/backend:${{ github.sha }}
+          docker build -f Dockerfile . -t ${{ secrets.ACR_ENDPOINT }}/bookxchange-dev:${{ github.sha }}
+          docker push ${{ secrets.ACR_ENDPOINT }}/bookxchange-dev:${{ github.sha }}
       - uses: azure/webapps-deploy@v2
         with:
          app-name: 'bookxchange-dev'
          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-         images: ${{ secrets.ACR_ENDPOINT }}/backend:${{ github.sha }}'
+         images: ${{ secrets.ACR_ENDPOINT }}/bookxchange-dev:${{ github.sha }}'
