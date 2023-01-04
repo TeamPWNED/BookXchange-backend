@@ -95,25 +95,25 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
         'default': {
            'ENGINE': 'django.db.backends.postgresql',
-           'NAME': os.environ.get('DB_NAME'),
-           'USER': os.environ.get('DB_USERNAME'),
-           'PASSWORD': os.environ.get('DB_PASSWORD'),
-           'HOST': os.environ.get('DB_HOST'),
+           'NAME': 'postgres',#os.environ.get('DB_NAME'),
+           'USER': 'postgres',#os.environ.get('DB_USERNAME'),
+           'PASSWORD': 'postgres',#os.environ.get('DB_PASSWORD'),
+           'HOST': 'localhost',#os.environ.get('DB_HOST'),
            'PORT': '5432',
         }
 }
-if os.environ.get('GITHUB_WORKFLOW'):
-    DATABASES = {
-        'default': {
-           'ENGINE': 'django.db.backends.postgresql',
-           'NAME': os.environ.get('DB_NAME'),
-           'USER': os.environ.get('DB_USERNAME'),
-           'PASSWORD': os.environ.get('DB_PASSWORD'),
-           'HOST': os.environ.get('DB_HOST'),
-           'PORT': '5432',
-        }
-    }
-
+#if os.environ.get('GITHUB_WORKFLOW'):
+#    DATABASES = {
+#        'default': {
+#           'ENGINE': 'django.db.backends.postgresql',
+#           'NAME': os.environ.get('DB_NAME'),
+#           'USER': os.environ.get('DB_USERNAME'),
+#           'PASSWORD': os.environ.get('DB_PASSWORD'),
+#           'HOST': os.environ.get('DB_HOST'),
+#           'PORT': '5432',
+#        }
+#    }
+#
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 

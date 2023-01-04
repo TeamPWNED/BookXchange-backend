@@ -11,6 +11,7 @@ env
 *.bak 
 staticfiles
 database
+.secrets
 
 # If you are using PyCharm # 
 # User-specific stuff
