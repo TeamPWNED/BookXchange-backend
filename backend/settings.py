@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-
+import environ
+env = environ.Env()
+environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 from datetime import timedelta
@@ -92,28 +94,28 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #        'NAME': BASE_DIR / 'db.sqlite3',
 #    }
 #}
-DATABASES = {
-        'default': {
-           'ENGINE': 'django.db.backends.postgresql',
-           'NAME': 'postgres',#os.environ.get('DB_NAME'),
-           'USER': 'postgres',#os.environ.get('DB_USERNAME'),
-           'PASSWORD': 'postgres',#os.environ.get('DB_PASSWORD'),
-           'HOST': 'localhost',#os.environ.get('DB_HOST'),
-           'PORT': '5432',
-        }
-}
-#if os.environ.get('GITHUB_WORKFLOW'):
-#    DATABASES = {
+#DATABASES = {
 #        'default': {
 #           'ENGINE': 'django.db.backends.postgresql',
-#           'NAME': os.environ.get('DB_NAME'),
-#           'USER': os.environ.get('DB_USERNAME'),
-#           'PASSWORD': os.environ.get('DB_PASSWORD'),
-#           'HOST': os.environ.get('DB_HOST'),
+#           'NAME': 'postgres',#os.environ.get('DB_NAME'),
+#           'USER': 'postgres',#os.environ.get('DB_USERNAME'),
+#           'PASSWORD': 'postgres',#os.environ.get('DB_PASSWORD'),
+#           'HOST': 'localhost',#os.environ.get('DB_HOST'),
 #           'PORT': '5432',
 #        }
-#    }
-#
+#}
+if os.environ.get('GITHUB_WORKFLOW'):
+    DATABASES = {
+        'default': {
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': env('DB_NAME'),
+           'USER': env('DB_USERNAME'),
+           'PASSWORD': env('DB_PASSWORD'),
+           'HOST': env('DB_HOST'),
+           'PORT': '5432',
+        }
+    }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
