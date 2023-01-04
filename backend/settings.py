@@ -93,16 +93,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #        'NAME': BASE_DIR / 'db.sqlite3',
 #    }
 #}
-#DATABASES = {
-#        'default': {
-#           'ENGINE': 'django.db.backends.postgresql',
-#           'NAME': 'postgres',#os.environ.get('DB_NAME'),
-#           'USER': 'postgres',#os.environ.get('DB_USERNAME'),
-#           'PASSWORD': 'postgres',#os.environ.get('DB_PASSWORD'),
-#           'HOST': 'localhost',#os.environ.get('DB_HOST'),
-#           'PORT': '5432',
-#        }
-#}
+DATABASES = {
+        'default': {
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': os.environ.get('DB_NAME'),
+           'USER': os.environ.get('DB_USERNAME'),
+           'PASSWORD': os.environ.get('DB_PASSWORD'),
+           'HOST': os.environ.get('DB_HOST'),
+           'PORT': '5432',
+        }
+}
 if os.getenv('GITHUB_WORKFLOW'):
     DATABASES = {
         'default': {
