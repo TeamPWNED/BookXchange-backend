@@ -12,7 +12,7 @@ env
 staticfiles
 database
 .secrets
-
+.kube
 # If you are using PyCharm # 
 # User-specific stuff
 .idea/**/workspace.xml
