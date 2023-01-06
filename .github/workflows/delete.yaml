@@ -6,7 +6,7 @@ on:
       - "main"
 
 jobs:
-  django-test:
+  django:
     runs-on: ubuntu-latest
     env:
       TEST_DB_NAME: ${{ secrets.TEST_DB_NAME }}
