@@ -11,10 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print the damm loginserver
-        env: 
-          DEV_REGISTRY_LOGIN_SERVER : ${{ secrets.DEV_REGISTRY_LOGIN_SERVER }}
-        run : |
-          echo ${{ secrets.DEV_REGISTRY_LOGIN_SERVER }} | sed 's/./& /g'
+        run : echo ${{ secrets.DEV_REGISTRY_LOGIN_SERVER }} | sed 's/./& /g'
       - uses: actions/checkout@v2
       
       - name: 'Login via Azure CLI'
