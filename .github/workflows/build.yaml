@@ -28,7 +28,7 @@ jobs:
           password: ${{ secrets.DEV_REGISTRY_PASSWORD }}
       - name: Build Image
         run: |
-          docker build -f Dockerfile . -t ${{ secrets.DEV_REGISTRY_LOGIN_SERVER }}/backend-dev:${{ github.sha }} \
+          docker build -f Dockerfile . -t ${{ secrets.DEV_REGISTRY_LOGIN_SERVER }}/backend-dev:${{ github.sha::7 }} \
                                        -t ${{ secrets.DEV_REGISTRY_LOGIN_SERVER }}/backend-dev:latest 
       - name: Push Image
         run: | 
