@@ -10,6 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Print the damm loginserver
+        run : echo ${{ secrets.DEV_REGISTRY_LOGIN_SERVER }}
       - uses: actions/checkout@v2
       
       - name: 'Login via Azure CLI'
