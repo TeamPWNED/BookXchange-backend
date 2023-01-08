@@ -19,7 +19,7 @@ az ad sp create-for-rbac --name BookXchange --role contributor --scopes /subscri
 
 4. Creating separate registry for development environment, and getting DEV_REGISTRY_LOGIN_SERVER, DEV_REGISTRY_USERNAME, DEV_REGISTRY_PASSWORD,  RESOURCE_GROUP(ClientId from above output)
 ```
-az acr create --resource-group BookXchange --name bookxchangedevelopment --sku Basic
+az acr create --resource-group BookXchange --name bookxchangedevelopment --sku Basic --location southindia
 $registryId=$(az acr show \
   --name bookxchangedevelopment \
   --resource-group BookXchange \
