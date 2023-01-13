@@ -16,7 +16,7 @@ spec:
       - name: django
         image:  bookxchangedevelopment.azurecr.io/backend-dev:latest
         imagePullPolicy: Always
-        imagepullsecrets:
+        imagePullSecrets:
         - name: registry-secrets
         resources:
           limits:
