@@ -24,7 +24,7 @@ load_dotenv()
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*waucpt9!5h5ry70hixvoqs7p53m4!pae)xvqr_qkw7n5b@7ri'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY") 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -39,6 +39,7 @@ ALLOWED_HOSTS =  ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'storages',
     'jazzmin',
     'drf_yasg',
     'rest_framework_swagger',
@@ -90,34 +91,22 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 #DATABASES = {
-#        'default': {
-#           'ENGINE': 'django.db.backends.postgresql',
-#           'NAME': os.environ.get('DB_NAME'),
-#           'USER': os.environ.get('DB_USERNAME'),
-#           'PASSWORD': os.environ.get('DB_PASSWORD'),
-#           'HOST': os.environ.get('DB_HOST'),
-#           'PORT': '5432',
-#        }
-#}
-#if os.getenv('AZURE_POSTGRESQL_NAME'):
-#    DATABASES = {
-#        'default': {
-#           'ENGINE': 'django.db.backends.postgresql',
-#           'NAME': os.getenv('AZURE_POSTGRESQL_NAME'),
-#           'USER': os.getenv('AZURE_POSTGRESQL_USER'),
-#           'PASSWORD': os.getenv('AZURE_POSTGRESQL_PASSWORD'),
-#           'HOST': os.getenv('AZURE_POSTGRESQL_HOST'),
-#           'PORT': '5432',
-#        }
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
 #    }
-
+#}
+DATABASES = {
+        'default': {
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': os.environ.get('DB_NAME'),
+           'USER': os.environ.get('DB_USERNAME'),
+           'PASSWORD': os.environ.get('DB_PASSWORD'),
+           'HOST': os.environ.get('DB_HOST'),
+           'PORT': os.environ.get('DB_PORT'),
+        }
+}
 
 if os.getenv('GITHUB_WORKFLOW'):
     DATABASES = {
@@ -130,6 +119,20 @@ if os.getenv('GITHUB_WORKFLOW'):
            'PORT': '5432',
         }
     }
+
+
+if os.getenv('AZURE_POSTGRESQL_NAME'):
+    DATABASES = {
+        'default': {
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': os.getenv('AZURE_POSTGRESQL_NAME'),
+           'USER': os.getenv('AZURE_POSTGRESQL_USER'),
+           'PASSWORD': os.getenv('AZURE_POSTGRESQL_PASSWORD'),
+           'HOST': os.getenv('AZURE_POSTGRESQL_HOST'),
+           'PORT': '5432',
+        }
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -220,3 +223,5 @@ SIMPLE_JWT = {
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 CORS_ORIGIN_ALLOW_ALL = True
+
+from .cdn.config import *

@@ -1,0 +1,51 @@
+name: Deploy docker image to Azure Kubernetes Service
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build-job:
+    uses: TeamPWNED/BookXchange-backend/.github/workflows/build.yaml@main
+    secrets: inherit
+  deploy:
+    runs-on: ubuntu-latest
+    needs: ['build-job']
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Creating Deployment Secrets
+        run: |
+          cat << EOF > .env
+          DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
+          ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}
+          DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+          DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+          DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}
+          POSTGRES_DB=${{ secrets.DEV_POSTGRES_DB }}
+          POSTGRES_USER=${{ secrets.DEV_POSTGRES_USER }}
+          POSTGRES_PASSWORD=${{ secrets.DEV_POSTGRES_PASSWORD }}
+          POSTGRES_HOST=${{ secrets.DEV_POSTGRES_HOST }}
+          AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AZURE_POSTGRESQL_HOST=${{ secrets.AZURE_POSTGRESQL_HOST }}
+          AZURE_POSTGRESQL_NAME=${{ secrets.AZURE_POSTGRESQL_NAME }}
+          AZURE_POSTGRESQL_PASSWORD=${{ secrets.AZURE_POSTGRESQL_PASSWORD }}
+          AZURE_POSTGRESQL_USER=${{ secrets.AZURE_POSTGRESQL_USER }}
+          EOF
+          kubectl delete secret django-secrets
+          kubectl create secret generic django-secrets --from-env-file=.env
+      - name: Update Deployment
+        run: |
+          kubectl set image deployment/django backend-dev=${{ secrets.DEV_REGISTRY_LOGIN_SERVER }}/backend-dev:${GITHUB_SHA::7} --record
+      - name: Get deployment Status
+        run: |
+          kubectl rollout status deployment/django
+      - name: Django migrate and collectstatic
+        run: |
+          kubectl exec -it $(kubectl get pods -l app=django -o jsonpath='{.items[0].metadata.name}') -- python manage.py migrate
+          kubectl exec -it $(kubectl get pods -l app=django -o jsonpath='{.items[0].metadata.name}') -- python manage.py collectstatic --noinput

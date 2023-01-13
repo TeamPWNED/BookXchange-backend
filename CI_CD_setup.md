@@ -42,6 +42,11 @@ az postgres flexible-server create --admin-user {postgres username} \\
 6. Creating azure kubernetes cluster
 ```
 az aks create --name bookxchange-kluster-development --resource-group BookXchange \\
-    --node-count 2 --location southindia --generate-ssh-keys
+    --node-count 2 --location southindia --generate-ssh-keys --ip-families ipv4,ipv6
+```
+
+7. Downloading cluster credentials (optional)
+```
+az aks get-credentials --name bookxchange-kluster-development --resource-group BookXchange
 ```
 

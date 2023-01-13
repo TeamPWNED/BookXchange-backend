@@ -1,8 +1,8 @@
 #!/bin/sh
-python manage.py collectstatic -v 2 --noinput
-python manage.py migrate
-python manage.py runserver 0.0.0.0:80
-#gunicorn --bind :8000 backend.wsgi
+#python manage.py collectstatic -v 2 --noinput
+#python manage.py migrate
+#python manage.py runserver 0.0.0.0:80
+gunicorn --bind :8000 backend.wsgi
 if [ "$DATABASE" = "postgres" ]
 then
     echo "Waiting for postgres..."
