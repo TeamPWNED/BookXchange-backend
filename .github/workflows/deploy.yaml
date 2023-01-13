@@ -36,6 +36,7 @@ jobs:
           container-registry-username: ${{ secrets.DEV_REGISTRY_USERNAME }}
           container-registry-password: ${{ secrets.DEV_REGISTRY_PASSWORD }}
           secret-name: registry-secrets
+          namespace: 'bookxchange-development'
       - name: Creating Deployment Secrets
         uses: azure/k8s-create-secret@v1
         with: 
