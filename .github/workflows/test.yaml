@@ -12,6 +12,7 @@ jobs:
       TEST_DB_USERNAME: ${{ secrets.TEST_DB_USERNAME }}
       TEST_DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
       TEST_DB_HOST: ${{ secrets.TEST_DB_HOST }}
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }} 
     services:
       postgres:
         image: postgres:latest
