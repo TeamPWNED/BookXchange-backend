@@ -18,34 +18,52 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Set AKS context
+        uses: azure/aks-set-context@v3
+        with: 
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.CLUSTER_NAME }}
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+      - name: Creating Image Pull secrets
+        uses: azure/k8s-create-secret@v4
+        with:
+          container-registry-url: ${{ secrets.DEV_REGISTRY_LOGIN_SERVER }}
+          container-registry-username: ${{ secrets.DEV_REGISTRY_USERNAME }}
+          container-registry-password: ${{ secrets.DEV_REGISTRY_PASSWORD }}
+          secret-name: registry-secrets
       - name: Creating Deployment Secrets
-        run: |
-          cat << EOF > .env
-          DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
-          ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}
-          DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}
-          DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
-          DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}
-          POSTGRES_DB=${{ secrets.DEV_POSTGRES_DB }}
-          POSTGRES_USER=${{ secrets.DEV_POSTGRES_USER }}
-          POSTGRES_PASSWORD=${{ secrets.DEV_POSTGRES_PASSWORD }}
-          POSTGRES_HOST=${{ secrets.DEV_POSTGRES_HOST }}
-          AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AZURE_POSTGRESQL_HOST=${{ secrets.AZURE_POSTGRESQL_HOST }}
-          AZURE_POSTGRESQL_NAME=${{ secrets.AZURE_POSTGRESQL_NAME }}
-          AZURE_POSTGRESQL_PASSWORD=${{ secrets.AZURE_POSTGRESQL_PASSWORD }}
-          AZURE_POSTGRESQL_USER=${{ secrets.AZURE_POSTGRESQL_USER }}
-          EOF
-          kubectl delete secret django-secrets
-          kubectl create secret generic django-secrets --from-env-file=.env
-      - name: Update Deployment
-        run: |
-          kubectl set image deployment/django backend-dev=${{ secrets.DEV_REGISTRY_LOGIN_SERVER }}/backend-dev:${GITHUB_SHA::7} --record
-      - name: Get deployment Status
-        run: |
-          kubectl rollout status deployment/django
-      - name: Django migrate and collectstatic
-        run: |
-          kubectl exec -it $(kubectl get pods -l app=django -o jsonpath='{.items[0].metadata.name}') -- python manage.py migrate
-          kubectl exec -it $(kubectl get pods -l app=django -o jsonpath='{.items[0].metadata.name}') -- python manage.py collectstatic --noinput
+        uses: azure/k8s-create-secret@v4
+        with: 
+          namespace: 'bookxchange-development'
+          secret-type: 'generic'
+          secret-name: django-secrets
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+          DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+          DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+          DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
+          POSTGRES_DB: ${{ secrets.DEV_POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.DEV_POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DEV_POSTGRES_PASSWORD }}
+          POSTGRES_HOST: ${{ secrets.DEV_POSTGRES_HOST }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AZURE_POSTGRESQL_HOST: ${{ secrets.AZURE_POSTGRESQL_HOST }}
+          AZURE_POSTGRESQL_NAME: ${{ secrets.AZURE_POSTGRESQL_NAME }}
+          AZURE_POSTGRESQL_PASSWORD: ${{ secrets.AZURE_POSTGRESQL_PASSWORD }}
+          AZURE_POSTGRESQL_USER: ${{ secrets.AZURE_POSTGRESQL_USER }}
+      - name: Deploy New Image 
+        uses: azure/k8s-deploy@v4
+        with:
+          namespace: 'bookxchange-development'
+          manifests: |
+            k8s/django.yaml
+          images: '${{ secrets.DEV_REGISTRY_LOGIN_SERVER }}/backend-dev:${GITHUB_SHA::7}'
+          imagepullsecrets: |
+            django-secrets
+            registry-secrets 
