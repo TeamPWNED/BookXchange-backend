@@ -42,21 +42,7 @@ jobs:
           namespace: 'bookxchange-development'
           secret-type: 'generic'
           secret-name: django-secrets
-          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
-          DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPERUSER_USERNAME }}
-          DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
-          DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
-          POSTGRES_DB: ${{ secrets.DEV_POSTGRES_DB }}
-          POSTGRES_USER: ${{ secrets.DEV_POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.DEV_POSTGRES_PASSWORD }}
-          POSTGRES_HOST: ${{ secrets.DEV_POSTGRES_HOST }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AZURE_POSTGRESQL_HOST: ${{ secrets.AZURE_POSTGRESQL_HOST }}
-          AZURE_POSTGRESQL_NAME: ${{ secrets.AZURE_POSTGRESQL_NAME }}
-          AZURE_POSTGRESQL_PASSWORD: ${{ secrets.AZURE_POSTGRESQL_PASSWORD }}
-          AZURE_POSTGRESQL_USER: ${{ secrets.AZURE_POSTGRESQL_USER }}
+          string-data:{ "DJANGO_SECRET_KEY": "${{ secrets.DJANGO_SECRET_KEY }}", "ALLOWED_HOSTS": "${{ secrets.ALLOWED_HOSTS }}","DJANGO_SUPERUSER_USERNAME": "${{ secrets.DJANGO_SUPERUSER_USERNAME }}","DJANGO_SUPERUSER_PASSWORD": "${{ secrets.DJANGO_SUPERUSER_PASSWORD }}","DJANGO_SUPERUSER_EMAIL": "${{ secrets.DJANGO_SUPERUSER_EMAIL }}","POSTGRES_DB": "${{ secrets.DEV_POSTGRES_DB }}","POSTGRES_USER": "${{ secrets.DEV_POSTGRES_USER }}","POSTGRES_PASSWORD": "${{ secrets.DEV_POSTGRES_PASSWORD }}","POSTGRES_HOST": "${{ secrets.DEV_POSTGRES_HOST }}","AWS_ACCESS_KEY_ID": "${{ secrets.AWS_ACCESS_KEY_ID }}","AWS_SECRET_ACCESS_KEY": "${{ secrets.AWS_SECRET_ACCESS_KEY }}","AZURE_POSTGRESQL_HOST": "${{ secrets.AZURE_POSTGRESQL_HOST }}","AZURE_POSTGRESQL_NAME": ${{ secrets.AZURE_POSTGRESQL_NAME }}","AZURE_POSTGRESQL_PASSWORD": "${{ secrets.AZURE_POSTGRESQL_PASSWORD }}","AZURE_POSTGRESQL_USER": "${{ secrets.AZURE_POSTGRESQL_USER }}"}
       - name: Deploy New Image 
         uses: azure/k8s-deploy@v4
         with:
