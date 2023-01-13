@@ -37,7 +37,7 @@ jobs:
           container-registry-password: ${{ secrets.DEV_REGISTRY_PASSWORD }}
           secret-name: registry-secrets
       - name: Creating Deployment Secrets
-        uses: azure/k8s-create-secret@v4
+        uses: azure/k8s-create-secret@v1
         with: 
           namespace: 'bookxchange-development'
           secret-type: 'generic'
@@ -53,6 +53,8 @@ jobs:
             --from-literal=POSTGRES_PASSWORD=${{ secrets.DEV_POSTGRES_PASSWORD }}
             --from-literal=POSTGRES_HOST=${{ secrets.DEV_POSTGRES_HOST }}
             --from-literal=AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+            --from-literal=AWS_STORAGE_BUCKET_NAME=${{ secrets.AWS_STORAGE_BUCKET_NAME }}
+            --from-literal=AWS_LOCATION=${{ secrets.AWS_LOCATION }}
             --from-literal=AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
             --from-literal=AZURE_POSTGRESQL_HOST=${{ secrets.AZURE_POSTGRESQL_HOST }}
             --from-literal=AZURE_POSTGRESQL_NAME=${{ secrets.AZURE_POSTGRESQL_NAME }}
