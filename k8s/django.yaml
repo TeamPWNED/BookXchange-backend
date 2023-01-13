@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: django
 spec:
+  progressDeadlineSeconds: 5000
   selector:
     matchLabels:
       app: django
